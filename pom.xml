@@ -24,6 +24,13 @@
       <type>jar</type>
     </dependency>
     
+    
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-csv</artifactId>
+    <version>1.5</version>
+</dependency>
+
    <dependency>
     <groupId>com.opencsv</groupId>
     <artifactId>opencsv</artifactId>

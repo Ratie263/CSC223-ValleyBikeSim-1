@@ -1,5 +1,9 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class Station {
+	
 	private int ID;
 	private String name;
 	private int bikes;
@@ -9,9 +13,10 @@ public class Station {
 	private int capacity;
 	private boolean hasKiosk;
 	private String address;
+	private int count=0;
 	
 	public Station(int ID, String name, int bikes, int pedelacs, int aDocks, int mReq, int capacity,
-			boolean hasKiosk, String address) {
+			boolean hasKiosk, String address) throws IOException {
 		this.ID = ID; 
 		this.name = name;
 		this.bikes = bikes; 
@@ -21,8 +26,42 @@ public class Station {
 		this.capacity = capacity;
 		this.hasKiosk = hasKiosk;
 		this.address = address;
-	}
+		FileWriter csvWriter = new FileWriter("data-files/station-data.csv",true);
+
 	
+		csvWriter.append(Integer.toString(ID));
+	    csvWriter.append(',');
+		csvWriter.append(name);
+		csvWriter.append(',');
+		csvWriter.append(address);
+		csvWriter.append(',');
+		csvWriter.append(Integer.toString(pedelacs));
+		csvWriter.append(',');
+		csvWriter.append(Integer.toString(bikes));
+		csvWriter.append(',');
+		csvWriter.append(Integer.toString(availableDocks));
+		csvWriter.append(',');
+		csvWriter.append(Integer.toString(mReq));
+		csvWriter.append(',');
+		csvWriter.append(Integer.toString(capacity));
+		csvWriter.append(',');
+		csvWriter.append(fromBool(hasKiosk));
+		
+		csvWriter.append("\n");
+
+
+
+		csvWriter.flush();
+		csvWriter.close();
+		
+	}
+	public static String fromBool(Boolean b) {
+		if(b == true) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
 	public void setID(int ID) {
 		this.ID = ID;
 	}
@@ -95,6 +134,7 @@ public class Station {
 	public String getAddress() {
 		return this.address;
 	}
+	
 	
 
 }

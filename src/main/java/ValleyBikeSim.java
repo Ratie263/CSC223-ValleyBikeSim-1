@@ -2,10 +2,12 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.*;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +16,7 @@ import com.sun.tools.javac.code.TypeMetadata.Entry;
 public class ValleyBikeSim {
 	
 	/*
-	 * Fields related to stations.
+	 * Fields related tos.
 	 */
 	public static List<Station> stationsList;
 	public static TreeMap<Integer, Station> stationsMap;
@@ -34,27 +36,30 @@ public class ValleyBikeSim {
 	 * Read in all the data files and store them in appropriate data structures
 	 */
 	public static void readData() {
+		
+		
 		try {
-			String stationData = "/Users/nukhbahmajid/Desktop/Smith_College/Junior_Year/CSC223/CSC223-ValleyBikeSim/data-files/station-data.csv";
+			String stationData = "data-files/station-data.csv";
 
 			
 			CSVReader stationDataReader = new CSVReader(new FileReader(stationData));
-			
 			
 			stationsList = new ArrayList<>();
 			stationsMap = new TreeMap<>();
 			
 			// how to read the CSV data row wise:
 			allStationEntries = stationDataReader.readAll();
+			createCSV();
 			System.out.println("");
 			int counter = 0;
 			for(String[] array : allStationEntries) {
 				if(counter == 0) {
 					
 				} else {
+
+					
 					stationsList.add(new Station((Integer.parseInt(array[0])), array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3]), Integer.parseInt(array[4]),
 						Integer.parseInt(array[5]), Integer.parseInt(array[6]), toBool(array[7]), array[8]));
-					
 				}
 				counter++;
 				
@@ -80,6 +85,15 @@ public class ValleyBikeSim {
 		}
 		
 	}
+
+	public static String fromBool(Boolean b) {
+		if(b == true) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
 	
 	public static void processRideData(String ridesFileName) {
 		String rideData = "/Users/nukhbahmajid/Desktop/Smith_College/Junior_Year/CSC223/CSC223-ValleyBikeSim/data-files/" + ridesFileName;
@@ -132,12 +146,36 @@ public class ValleyBikeSim {
 			return true;
 		}
 	}
+	public static void createCSV() {
+
+
+		      String csv = "data-files/station-data.csv";
+		      CSVWriter writer;
+			try {
+				writer = new CSVWriter(new FileWriter(csv));
+
+			      String [] record = "ID,Name,Address,Pedelecs,Bikes,Available Docks,Maintainence Request,Capacity,Kiosk".split(",");
+
+			      writer.writeNext(record);
+
+			      writer.close();
+			      
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		   
+		
+	}
 	
 	
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome to CSC223.\n");
+		
 		readData();
+		
 		
 		
 		
